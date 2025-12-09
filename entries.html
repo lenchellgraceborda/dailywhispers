@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Saved Diary Entries</title>
+    <link rel="stylesheet" href="style.css">
+
+     <style>
+        .entries-wrapper {
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        .entry-card {
+            background-color: var(--cream);
+            border: 1px solid var(--dusty-rose);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .entry-card h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: var(--warm-cocoa);
+        }
+        .no-entries {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .back-link {
+            color: var(--warm-cocoa);    
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: var(--dusty-rose);  
+            text-decoration: underline;
+        }
+
+    </style>
+
+</head>
+<body class="write">
+
+    <header><nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="diary.html">Write</a></li>
+        </ul>
+    </nav>
+    </header>
+
+    <main>
+    <div class="entries-wrapper">
+        <h2 style="text-align:center;">Saved Diary Entries</h2>
+        <a href="diary.html" class="back-link">⬅ Back to Diary</a>
+        <div id="entriesList"></div>
+    </div>
+    </main>
+
+    <footer>
+    <p>Connect with me:</p>
+    <ul>
+        <li><a href="https://www.facebook.com/lenchell.grace.borda" target="_blank">Lenchell Grace Borda</a></li>
+        <li><a href="https://www.instagram.com/__bblair/" target="_blank">@__bblair</a></li>
+        <li><a href="mailto:lenchellgraceborda@gmail.com">lenchellgraceborda@gmail.com</a></li>
+    </ul>
+    </footer>
+   
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('entriesList');
+            let entries = [];
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (!key || !key.startsWith('diary-')) continue;
+
+                const date = key.substring(6);
+                const text = localStorage.getItem(key);
+
+            if (!text || !text.trim()) continue;
+
+                entries.push({ date, text });
+            }
+
+                entries.sort((a, b) => a.date.localeCompare(b.date));
+
+            if (entries.length === 0) {
+                container.innerHTML = "<p class='no-entries'>No entries saved yet.</p>";
+                return;
+            }
+
+             entries.forEach(entry => {
+                const box = document.createElement('div');
+                box.className = 'entry-card';
+                box.innerHTML = `
+                    <h3>${entry.date}</h3>
+                    <p>${entry.text.replace(/\n/g, '<br>')}</p>
+            `;
+            container.appendChild(box);
+    });
+});
+</script>
+
+    
+</body>
+</html>

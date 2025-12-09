@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write - Daily Whispers</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="write">
+    <header>
+
+        
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="diary.html">Write</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        
+        <div class="stamp-wrapper">
+        <img src="images/stamp.png" class="stamp-header">
+    </div>
+
+    <section class="notebook">
+        <div class="date-section">
+            <label for="entry-date"></label>
+            <input type="date" id="entry-date">
+        </div>
+
+        <textarea id="entry-text" placeholder="Write your thoughts here..."></textarea>
+
+        <button type="button" class="save-button">Save</button>
+
+        <a href="entries.html" class="button">View Saved Entries</a>
+    </section>
+    </main>
+   
+    <footer>
+        <p>Connect with me:</p>
+        <ul>
+            <li><a href="https://www.facebook.com/lenchell.grace.borda" target="_blank">Lenchell Grace Borda</a></li>
+            <li><a href="https://www.instagram.com/__bblair/" target="_blank">@__bblair</a></li>
+            <li><a href="mailto:lenchellgraceborda@gmail.com">lenchellgraceborda@gmail.com</a></li>
+        </ul>
+    </footer>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateInput  = document.getElementById('entry-date');
+        const textArea   = document.getElementById('entry-text');
+        const saveButton = document.querySelector('.save-button');
+
+            if (!dateInput || !textArea || !saveButton) return;
+
+            if (!dateInput.value) {
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.value = today;
+            }
+
+        function getKey() {
+            return 'diary-' + dateInput.value;
+            }
+
+        function loadEntry() {
+            const saved = localStorage.getItem(getKey());
+            textArea.value = saved || '';
+            }
+
+        function saveEntry() {
+            localStorage.setItem(getKey(), textArea.value);
+            alert('Your entry has been saved for ' + dateInput.value + ' 💌');
+            }
+
+        dateInput.addEventListener('change', loadEntry);
+        saveButton.addEventListener('click', saveEntry);
+        loadEntry();
+    });
+</script>
+
+</body>
+
+</html>
